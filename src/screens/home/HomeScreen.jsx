@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
+
 import recipes from './mockData';
+import { Colors } from '../../../assets/themes/Theme';
 
 const HomeScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');
@@ -74,11 +76,11 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Search */}
       <View style={styles.searchContainer}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} color='#9FA5C0' />
+        <FontAwesomeIcon icon={faMagnifyingGlass} color={Colors.INFO_SECONDARY} />
         <TextInput
           style={styles.searchTextInput}
           placeholder="Search"
-          placeholderTextColor="#9FA5C0"
+          placeholderTextColor={Colors.INFO_SECONDARY}
           value={searchValue}
           onChangeText={(text) => setSearchValue(text)}
         />
@@ -143,9 +145,9 @@ const HomeScreen = ({ navigation }) => {
           style={styles.navItem}
           onPress={() => handleNavPress('Home')}
         >
-          <FontAwesomeIcon icon={faHouse} size={20} color={selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0'} />
+          <FontAwesomeIcon icon={faHouse} size={20} color={selectedNavItem === 'Home' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
           <Text
-            style={[styles.navText, { color: selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0' }]}
+            style={[styles.navText, { color: selectedNavItem === 'Home' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
             numberOfLines={1}
           >
             Home
@@ -156,9 +158,9 @@ const HomeScreen = ({ navigation }) => {
           style={styles.navItem}
           onPress={() => handleNavPress('Upload')}
         >
-          <FontAwesomeIcon icon={faPenToSquare} size={20} color={selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0'} />
+          <FontAwesomeIcon icon={faPenToSquare} size={20} color={selectedNavItem === 'Upload' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
           <Text
-            style={[styles.navText, { color: selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0' }]}
+            style={[styles.navText, { color: selectedNavItem === 'Upload' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
             numberOfLines={1}
           >
             Upload
@@ -170,18 +172,18 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => handleNavPress('Camera')}
         >
           <View style={styles.cameraIcon}>
-            <FontAwesomeIcon icon={faCamera} size={20} color={selectedNavItem === 'Camera' ? 'white' : '#F1F1F1'} />
+            <FontAwesomeIcon icon={faCamera} size={20} color={'white'} />
           </View>
-          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? '#FF6A00' : '#9FA5C0', marginTop: "29%" }]}>Camera</Text>
+          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY, marginTop: "29%" }]}>Camera</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Notification')}
         >
-          <FontAwesomeIcon icon={faBell} size={20} color={selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0'} />
+          <FontAwesomeIcon icon={faBell} size={20} color={selectedNavItem === 'Notification' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
           <Text
-            style={[styles.navText, { color: selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0' }]}
+            style={[styles.navText, { color: selectedNavItem === 'Notification' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
             numberOfLines={1}
           >
             Notification
@@ -191,9 +193,9 @@ const HomeScreen = ({ navigation }) => {
           style={styles.navItem}
           onPress={() => handleNavPress('Profile')}
         >
-          <FontAwesomeIcon icon={faUser} size={20} color={selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0'} />
+          <FontAwesomeIcon icon={faUser} size={20} color={selectedNavItem === 'Profile' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
           <Text
-            style={[styles.navText, { color: selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0' }]}
+            style={[styles.navText, { color: selectedNavItem === 'Profile' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
             numberOfLines={1}
           >
             Profile
@@ -217,7 +219,7 @@ const styles = StyleSheet.create({
     marginTop: "-2%",
   },
   appName: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "Pacifico",
     fontSize: 20,
   },
@@ -225,11 +227,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   exploreText: {
-    color: '#FF6A00',    
+    color: Colors.PRIMARY_MAIN,    
     marginRight: "3%",
   },
   justForYouText: {
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
   searchTextInput: {
     flex: 1,
     marginLeft: 8,
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
     fontFamily: "MulishMedium",
   },
   filterContainer: {
@@ -253,10 +255,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   selectedFilter: {
-    backgroundColor: '#FF6A00',
+    backgroundColor: Colors.PRIMARY_MAIN,
   },
   unselectedFilterText: {
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
   },
   filterItem: {
     backgroundColor: '#F1F1F1',
@@ -272,7 +274,6 @@ const styles = StyleSheet.create({
     fontFamily: "MulishMedium",
   },
   recipeList: {
-    // backgroundColor: "#ff0", // test
     justifyContent: 'space-between',
     marginHorizontal: "5%",
     gap: 5,
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     flex: 1,
-    color: '#2E3E5C',
+    color: Colors.INFO_MAIN,
     fontFamily: "MulishMedium",
     fontSize: 14,
   },
@@ -306,16 +307,16 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   recipeName: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 20,
   },
   recipeInfo: {
-    color: "#9FA5C0",
+    color: Colors.INFO_SECONDARY,
     fontFamily: "MulishLight",
   },
   categoryInfo: {
-    color: "#9FA5C0",
+    color: Colors.INFO_SECONDARY,
     fontFamily: "MulishMedium",
     fontSize: 12,
   },
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   navText: {
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
     fontFamily: "MulishMedium",
     fontSize: 12,
     top: "7%",
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
   cameraIcon: {
     position: 'absolute',
     top: "-105%",
-    backgroundColor: '#FF6A00',
+    backgroundColor: Colors.PRIMARY_MAIN,
     borderRadius: 50,
     width: 55,
     height: 55,

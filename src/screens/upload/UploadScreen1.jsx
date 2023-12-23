@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
 
+import { Colors } from '../../../assets/themes/Theme';
+
 const UploadScreen1 = ({ navigation }) => {
   navigation = useNavigation();
 
@@ -26,7 +28,7 @@ const UploadScreen1 = ({ navigation }) => {
       <View style={styles.imageUploadContainer}>
         <TouchableOpacity>
           <View style={styles.imageBox}>
-            <FontAwesomeIcon icon={faImage} size={45} color='#FF6A00' />
+            <FontAwesomeIcon icon={faImage} size={45} color={Colors.PRIMARY_MAIN} />
             <Text style={styles.imageText}>Add Cover Photo</Text>
             <Text style={styles.requireImageText}>(up to 12MB)</Text>
           </View>
@@ -41,7 +43,7 @@ const UploadScreen1 = ({ navigation }) => {
           <TextInput
             style={styles.inputText}
             placeholder="Enter food name"
-            placeholderTextColor="#9FA5C0"
+            placeholderTextColor={Colors.INFO_SECONDARY}
           />
         </View>
 
@@ -51,7 +53,7 @@ const UploadScreen1 = ({ navigation }) => {
           <TextInput
             style={[styles.inputText, { height: 100, borderRadius: 15, }]} // Adjust the height as needed
             placeholder="Tell a little about your food"
-            placeholderTextColor="#9FA5C0"
+            placeholderTextColor={Colors.INFO_SECONDARY}
             multiline
           />
         </View>
@@ -62,7 +64,7 @@ const UploadScreen1 = ({ navigation }) => {
           <TextInput
             style={styles.inputText}
             placeholder="In minutes"
-            placeholderTextColor="#9FA5C0"
+            placeholderTextColor={Colors.INFO_SECONDARY}
           />
         </View>
       </View>
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   cancelText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 18,
   },
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
   imageBox: {
     height: 190,
     borderWidth: 2,
-    borderColor: '#9FA5C0',
+    borderColor: Colors.INFO_SECONDARY,
     borderStyle: 'dashed',
     padding: 16,
     alignItems: 'center',
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
   },
   requireImageText: {
     fontSize: 14,
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
   },
   formContainer: {
     marginTop: "3%",
@@ -127,13 +129,13 @@ const styles = StyleSheet.create({
     gap: 10
   },
   labelText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 16,
   },
   inputText: {
     paddingVertical: "2%",
-    borderColor: '#9FA5C0',
+    borderColor: Colors.INFO_SECONDARY,
     borderWidth: 1,
     borderRadius: 25,
     paddingHorizontal: "5%",
@@ -148,7 +150,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   nextButtonText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 18,
   },

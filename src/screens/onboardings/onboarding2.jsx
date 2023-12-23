@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
 const Onboarding2 = ({ navigation }) => {
   const data = [1, 2, 3]; // Số lượng dots
@@ -11,6 +11,8 @@ const Onboarding2 = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={"white"} barStyle={'dark-content'}/>
+
       {/* Logo */}
       <Image source={require('../../../assets/images/Logo.png')} style={styles.logo} />
 
@@ -68,18 +70,19 @@ const styles = StyleSheet.create({
   logo: {
     width: 50,
     height: 50,
-    marginTop: -50,
+    marginTop: "-15%",
   },
   appName: {
     color: '#FF6A00',
+    marginTop: "-5%", 
+    fontFamily: "Pacifico",
     fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 5,
   },
   slogan: {
     color: '#919495',
+    fontFamily: "MulishLight",
     fontSize: 12,
-    marginTop: 5,
+    marginTop: "-2%",
   },
   image: {
     width: 270,
@@ -89,19 +92,20 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'black',
+    fontFamily: "MulishBold",
     fontSize: 24,
-    fontWeight: 'bold',
-    marginTop: 20,
+    marginTop: "5%",
   },
   description: {
     color: '#919495',
+    fontFamily: "MulishLight",
     fontSize: 14,
     marginVertical: 10,
-    marginHorizontal: 20,
-    textAlign: 'center'
+    marginHorizontal: "3%",
+    textAlign: 'center',
   },
   buttonContainer: {
-    width: '80%',
+    width: '100%',
     marginTop: 20,
   },
   customButton: {
@@ -114,6 +118,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: 'white',
+    fontFamily: "MulishBold",
     fontSize: 16,
     fontWeight: 'bold',
   },

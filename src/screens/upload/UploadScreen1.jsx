@@ -1,6 +1,6 @@
 // UploadScreen.jsx
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faImage } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +13,7 @@ const UploadScreen1 = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -49,7 +49,7 @@ const UploadScreen1 = ({ navigation }) => {
         <View style={styles.formField}>
           <Text style={styles.labelText}>Description</Text>
           <TextInput
-            style={[styles.inputText, { height: 100 }]} // Adjust the height as needed
+            style={[styles.inputText, { height: 100, borderRadius: 15, }]} // Adjust the height as needed
             placeholder="Tell a little about your food"
             placeholderTextColor="#9FA5C0"
             multiline
@@ -71,7 +71,7 @@ const UploadScreen1 = ({ navigation }) => {
       <TouchableOpacity style={styles.nextButton} onPress={handleNextPress}>
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 24,
-    paddingTop: 40
+    padding: "5%",
   },
   header: {
     flexDirection: 'row',
@@ -88,13 +87,13 @@ const styles = StyleSheet.create({
   },
   cancelText: {
     color: '#FF6A00',
+    fontFamily: "MulishBold",
     fontSize: 18,
-    fontWeight: 'bold',
   },
   progressText: {
     color: 'black',
-    fontWeight: 'bold',
-    fontSize: 16
+    fontFamily: "MulishBold",
+    fontSize: 16,
   },
   imageUploadContainer: {
     borderBottomColor: '#F1F1F1',
@@ -107,39 +106,41 @@ const styles = StyleSheet.create({
     borderStyle: 'dashed',
     padding: 16,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: "5%",
     borderRadius: 20,
     justifyContent: 'center'
   },
   imageText: {
+    fontFamily: "MulishMedium",
     fontSize: 16,
-    margin: 5
+    marginTop: "5%",
   },
   requireImageText: {
     fontSize: 14,
-    color: '#9FA5C0'
-
+    color: '#9FA5C0',
   },
   formContainer: {
-    marginTop: 30,
+    marginTop: "3%",
   },
   formField: {
-    marginBottom: 20,
+    marginBottom: "5%",
     gap: 10
   },
   labelText: {
     color: '#FF6A00',
-    fontWeight: '500',
-    fontSize: 16
+    fontFamily: "MulishBold",
+    fontSize: 16,
   },
   inputText: {
-    paddingVertical: 8,
+    paddingVertical: "2%",
     borderColor: '#9FA5C0',
     borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 16,
+    borderRadius: 25,
+    paddingHorizontal: "5%",
     textAlignVertical: 'top',
-    paddingTop: 16
+    paddingTop: "5%",
+    fontFamily: "MulishMedium",
+    fontSize: 14,
   },
   nextButton: {
     alignSelf: 'flex-end',
@@ -148,8 +149,8 @@ const styles = StyleSheet.create({
   },
   nextButtonText: {
     color: '#FF6A00',
+    fontFamily: "MulishBold",
     fontSize: 18,
-    fontWeight: 'bold',
   },
 });
 

@@ -74,7 +74,7 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.settingsIcon}
-          onPress={() => console.log('Settings pressed')}
+          onPress={() => navigation.navigate('SettingsScreen')} // Navigate to SettingsScreen
         >
           <FontAwesomeIcon icon={faCog} size={20} color="#FF6A00" />
         </TouchableOpacity>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     padding: 16,
-    marginTop: 30,
+    marginTop: 10,
   },
   settingsIcon: {
     marginRight: 10,

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image, } from 'react-native';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import { useNavigation } from '@react-navigation/native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCirclePlus, faFaceKissWinkHeart, faGripVertical } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-native-modal';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
+
 
 const UploadScreen2 = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -24,7 +27,7 @@ const UploadScreen2 = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
         {/* Header */}
         <View style={styles.header}>
@@ -43,21 +46,31 @@ const UploadScreen2 = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.ingredientsRow}>
-            <FontAwesomeIcon icon={faGripVertical} color='#9FA5C0' style={styles.gripIcon} />
+            <FontAwesomeIcon
+              icon={faGripVertical}
+              color="#9FA5C0"
+              style={styles.gripIcon}
+            />
             <TextInput
-              style={styles.inputText}
+              style={styles.ingredientsInputText}
               placeholder="Enter ingredient"
               placeholderTextColor="#9FA5C0"
             />
           </View>
+
           <View style={styles.ingredientsRow}>
-            <FontAwesomeIcon icon={faGripVertical} color='#9FA5C0' style={styles.gripIcon} />
+            <FontAwesomeIcon
+              icon={faGripVertical}
+              color="#9FA5C0"
+              style={styles.gripIcon}
+            />
             <TextInput
-              style={styles.inputText}
+              style={styles.ingredientsInputText}
               placeholder="Enter ingredient"
               placeholderTextColor="#9FA5C0"
             />
           </View>
+
           <TouchableOpacity>
             <Text style={styles.addButton}>＋ Ingredient</Text>
           </TouchableOpacity>
@@ -66,43 +79,55 @@ const UploadScreen2 = ({ navigation }) => {
         {/* Steps Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionHeaderText}>Steps</Text>
+          
           <View style={styles.stepContainer}>
             <Text style={styles.stepNumber}>1</Text>
             <TextInput
-              style={[styles.inputText, { height: 100 }]}
+              style={[styles.stepInputText, { height: 100 }]}
               placeholder="Tell a little about your food"
               placeholderTextColor="#9FA5C0"
               multiline
             />
           </View>
+
           <TouchableOpacity style={styles.addStepsButton}>
-            <FontAwesomeIcon icon={faCirclePlus} size={22} color='#FF6A00' />
+            <FontAwesomeIcon icon={faPlus} size={22} color="#FF6A00" />
           </TouchableOpacity>
         </View>
-
-        {/* Next Button */}
+      </ScrollView>
+    
+      {/* Back & Finish Button */}
+      <HideWithKeyboard>
         <View style={styles.footer}>
           <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.finishButton} onPress={handleFinishPress}>
+          <TouchableOpacity
+            style={styles.finishButton}
+            onPress={handleFinishPress}
+          >
             <Text style={styles.finishButtonText}>Finish</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </HideWithKeyboard>
 
       {/* Modal */}
       <Modal isVisible={isModalVisible} style={styles.modal}>
         <View style={styles.modalContainer}>
-          <Image source={require('../../../assets/images/Modal.png')} style={styles.modalImage} />
+          <Image
+            source={require("../../../assets/images/Modal.png")}
+            style={styles.modalImage}
+          />
           <Text style={styles.modalTitle}>Upload Success!</Text>
-          <Text style={styles.modalText}>Your recipe has been uploaded, you can see it on your profile</Text>
+          <Text style={styles.modalText}>
+            Your recipe has been uploaded, you can see it on your profile
+          </Text>
           <TouchableOpacity onPress={closeModal}>
             <Text style={styles.modalButton}>Back to Home</Text>
           </TouchableOpacity>
         </View>
       </Modal>
-    </View >
+    </SafeAreaView>
   );
 };
 
@@ -110,30 +135,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 24,
-    paddingTop: 40,
+    padding: "5%",
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: "5%",
   },
   cancelText: {
     color: '#FF6A00',
+    fontFamily: "MulishBold",
     fontSize: 18,
-    fontWeight: 'bold',
   },
   progressText: {
     color: 'black',
-    fontWeight: 'bold',
+    fontFamily: "MulishBold",
     fontSize: 16,
   },
-  nextButton: {
+  finishButton: {
     alignSelf: 'flex-end',
     marginTop: 'auto',
     padding: 10,
   },
-  nextButtonText: {
+  finishButtonText: {
     color: '#FF6A00',
     fontSize: 18,
     fontWeight: 'bold',
@@ -150,33 +174,34 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionHeaderText: {
-    color: 'black',
-    fontWeight: 'bold',
+    color: '#2E3E5C',
+    fontFamily: "MulishBold",
     fontSize: 18,
   },
   sectionButton: {
     color: '#FF6A00',
-    fontSize: 18,
-    fontWeight: 'bold'
+    fontFamily: "MulishMedium",
+    fontSize: 16,
   },
   ingredientsRow: {
-    top: 3,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     color: '#9FA5C0'
   },
   gripIcon: {
-    marginRight: 10,
+    marginRight: "3%",
     color: '#9FA5C0'
   },
-  inputText: {
+  ingredientsInputText: {
     flex: 1,
     borderWidth: 1,
     borderColor: '#9FA5C0',
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginVertical: 10,
-    borderRadius: 20,
+    borderRadius: 30,
+    fontFamily: "MulishMedium",
   },
   addButton: {
     color: '#FF6A00',
@@ -186,12 +211,12 @@ const styles = StyleSheet.create({
     top: 16,
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 20,
+    borderRadius: 30,
     textAlign: 'center',
     fontWeight: 'bold'
   },
   stepContainer: {
-    top: 10,
+    marginTop: "2%",
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
@@ -208,28 +233,36 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     textAlignVertical: 'center',
-    borderRadius: 50
+    borderRadius: 50,
+  },
+  stepInputText: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: '#9FA5C0',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginVertical: "3%",
+    borderRadius: 15,
+    fontFamily: "MulishMedium",
   },
   addStepsButton: {
     color: '#FF6A00',
-    backgroundColor: '#F1F1F1',
-    top: 16,
+    backgroundColor: '#F4F5F7',
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 15,
     textAlign: 'center',
-    fontWeight: 'bold',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 70,
-    marginTop: 120
+    gap: 60,
+    bottom: "2%",
   },
   backButton: {
     flex: 1,
-    backgroundColor: '#F1F1F1',
+    backgroundColor: '#F4F5F7',
     padding: 14,
     borderRadius: 30,
     alignItems: 'center',
@@ -244,14 +277,14 @@ const styles = StyleSheet.create({
   },
   backButtonText: {
     color: '#FF6A00',
+    fontFamily: "MulishBold",
     fontSize: 16,
-    fontWeight: 'bold',
     textAlignVertical: 'center',
   },
   finishButtonText: {
     color: 'white',
+    fontFamily: "MulishBold",
     fontSize: 16,
-    fontWeight: 'bold',
     textAlignVertical: 'center',
   },
   modal: {
@@ -268,15 +301,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   modalTitle: {
+    fontFamily: "MulishBold",
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: "2%",
   },
   modalText: {
+    fontFamily: "MulishMedium",
     fontSize: 14,
     color: '#9FA5C0',
-    marginBottom: 20,
-    textAlign: 'center'
+    marginBottom: "10%",
+    textAlign: 'center',
   },
   modalImage: {
     width: 120,
@@ -284,12 +318,12 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     backgroundColor: '#1fcc79',
-    padding: 16,
-    width: 120,
+    paddingVertical: "6%",
+    paddingHorizontal: "10%",
     color: 'white',
     borderRadius: 30,
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontFamily: "MulishBold",
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 10
   },

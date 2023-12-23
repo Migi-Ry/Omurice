@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList, SafeAreaView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
@@ -22,17 +22,31 @@ const HomeScreen = ({ navigation }) => {
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
     }
-  };
 
+    // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera
+    if (navItem === 'Camera') {
+      navigation.navigate('CameraScreen');
+    }
+  };
 
   const renderRecipeItem = ({ item }) => (
     <View style={styles.recipeItem}>
-      <View style={styles.userContainer}>
+      <TouchableOpacity
+        onPress={() => {}}
+        style={styles.userContainer}
+      >
         <Image source={item.avatar} style={styles.avatarContainer} />
-        <Text style={styles.userName}>{item.userName}</Text>
-      </View>
-      <Image source={item.image} style={styles.recipeImage} />
-      <Text style={styles.recipeName}>{item.name}</Text>
+        <Text style={styles.userName} numberOfLines={1}>{item.userName}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => {}}>
+        <Image source={item.image} style={styles.recipeImage} />
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => {}}>
+        <Text style={styles.recipeName}>{item.name}</Text>
+      </TouchableOpacity>
+      
       <View style={styles.recipeInfo}>
         <Text style={styles.categoryInfo}>{item.category}</Text>
       </View>
@@ -40,13 +54,21 @@ const HomeScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={"white"} barStyle={'dark-content'}/>
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.appName}>Omurice</Text>
+        
         <View style={styles.headerRight}>
-          <Text style={styles.exploreText}>EXPLORE</Text>
-          <Text style={styles.justForYouText}>JUST FOR YOU</Text>
+          <TouchableOpacity>
+            <Text style={styles.exploreText}>EXPLORE</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.justForYouText}>JUST FOR YOU</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -73,6 +95,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text style={[styles.filterText, selectedFilter !== 'All' && styles.unselectedFilterText]}>All</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.filterItem,
@@ -82,6 +105,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text style={[styles.filterText, selectedFilter !== 'Food' && styles.unselectedFilterText]}>Food</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.filterItem,
@@ -91,6 +115,7 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text style={[styles.filterText, selectedFilter !== 'Drinks' && styles.unselectedFilterText]}>Drinks</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={[
             styles.filterItem,
@@ -103,14 +128,12 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {/* Recipe Scroll */}
-      <TouchableOpacity>
-        
-      </TouchableOpacity>
       <FlatList
         data={recipes}
         renderItem={renderRecipeItem}
         keyExtractor={(item, index) => index.toString()}
         numColumns={2}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.recipeList}
       />
 
@@ -121,15 +144,27 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => handleNavPress('Home')}
         >
           <FontAwesomeIcon icon={faHouse} size={20} color={selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0' }]}>Home</Text>
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0' }]}
+            numberOfLines={1}
+          >
+            Home
+          </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Upload')}
         >
           <FontAwesomeIcon icon={faPenToSquare} size={20} color={selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0' }]}>Upload</Text>
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0' }]}
+            numberOfLines={1}
+          >
+            Upload
+          </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Camera')}
@@ -137,24 +172,35 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.cameraIcon}>
             <FontAwesomeIcon icon={faCamera} size={20} color={selectedNavItem === 'Camera' ? 'white' : '#F1F1F1'} />
           </View>
-          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? '#FF6A00' : '#9FA5C0' }]}>Camera</Text>
+          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? '#FF6A00' : '#9FA5C0', marginTop: "29%" }]}>Camera</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Notification')}
         >
           <FontAwesomeIcon icon={faBell} size={20} color={selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0' }]}>Notification</Text>
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0' }]}
+            numberOfLines={1}
+          >
+            Notification
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Profile')}
         >
           <FontAwesomeIcon icon={faUser} size={20} color={selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0' }]}>Profile</Text>
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0' }]}
+            numberOfLines={1}
+          >
+            Profile
+          </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -167,20 +213,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 16,
-    marginTop: 30,
+    padding: "5%",
+    marginTop: "-2%",
   },
   appName: {
     color: '#FF6A00',
+    fontFamily: "Pacifico",
     fontSize: 20,
-    fontWeight: 'bold',
   },
   headerRight: {
     flexDirection: 'row',
   },
   exploreText: {
-    color: '#FF6A00',
-    marginRight: 8,
+    color: '#FF6A00',    
+    marginRight: "3%",
   },
   justForYouText: {
     color: '#9FA5C0',
@@ -188,22 +234,23 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 16,
-    paddingLeft: 16,
+    marginHorizontal: "5%",
+    paddingLeft: "5%",
     backgroundColor: '#F1F1F1',
-    height: 40,
-    borderRadius: 20,
+    paddingVertical: "3%",
+    borderRadius: 50,
   },
   searchTextInput: {
+    flex: 1,
     marginLeft: 8,
     color: '#9FA5C0',
-    flex: 1,
+    fontFamily: "MulishMedium",
   },
   filterContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    margin: 16,
-    alignItems: 'center'
+    justifyContent: 'space-around',
+    margin: "5%",
+    alignItems: 'center',
   },
   selectedFilter: {
     backgroundColor: '#FF6A00',
@@ -212,24 +259,29 @@ const styles = StyleSheet.create({
     color: '#9FA5C0',
   },
   filterItem: {
-    padding: 8,
-    borderRadius: 30,
-    marginHorizontal: 10,
-    width: 76,
-    height: 40,
     backgroundColor: '#F1F1F1',
     alignItems: 'center',
+    padding: "3%",
+    borderRadius: 30,
+    width: 72,
+    height: 40,
   },
   filterText: {
     color: 'white',
     textAlign: 'center',
-    fontWeight: '500'
+    fontFamily: "MulishMedium",
+  },
+  recipeList: {
+    // backgroundColor: "#ff0", // test
+    justifyContent: 'space-between',
+    marginHorizontal: "5%",
+    gap: 5,
   },
   recipeItem: {
     width: 150,
-    marginLeft: 16,
     marginBottom: 16,
-    marginRight: 10
+    marginLeft: "1.5%",
+    marginRight: "2%",
   },
   userContainer: {
     flexDirection: 'row',
@@ -242,34 +294,36 @@ const styles = StyleSheet.create({
     borderRadius: 15
   },
   userName: {
-    color: 'black',
+    flex: 1,
+    color: '#2E3E5C',
+    fontFamily: "MulishMedium",
     fontSize: 14,
-    fontWeight: '500'
   },
   recipeImage: {
     width: 150,
     height: 150,
-    marginVertical: 16,
+    marginVertical: "8%",
     borderRadius: 20
   },
   recipeName: {
     color: '#FF6A00',
+    fontFamily: "MulishBold",
     fontSize: 20,
-    fontWeight: 'bold'
   },
   recipeInfo: {
-    marginTop: 4,
+    color: "#9FA5C0",
+    fontFamily: "MulishLight",
   },
   categoryInfo: {
-    color: '#9FA5C0',
+    color: "#9FA5C0",
+    fontFamily: "MulishMedium",
+    fontSize: 12,
   },
   bottomNavigation: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#F1F1F1',
-    paddingVertical: 8,
+    justifyContent: 'space-between',
+    alignItems: "center",
+    paddingVertical: "3%",
   },
   navItem: {
     flex: 1,
@@ -277,24 +331,19 @@ const styles = StyleSheet.create({
   },
   navText: {
     color: '#9FA5C0',
+    fontFamily: "MulishMedium",
     fontSize: 12,
-    top: 5,
+    top: "7%",
   },
   cameraIcon: {
     position: 'absolute',
-    top: -49,
+    top: "-105%",
     backgroundColor: '#FF6A00',
     borderRadius: 50,
-    padding: 8,
     width: 55,
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  recipeList: {
-    paddingHorizontal: 16,
-    justifyContent: 'space-between',
-    gap: 4,
   },
 });
 

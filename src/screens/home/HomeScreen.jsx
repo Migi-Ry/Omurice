@@ -17,10 +17,11 @@ const HomeScreen = ({ navigation }) => {
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
-
-    // Chuyển hướng đến trang Upload khi nhấn vào item nav Upload
+  
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
+    } else if (navItem === 'Profile') {
+      navigation.navigate('ProfileScreen');
     }
   };
 

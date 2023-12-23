@@ -8,6 +8,7 @@ import Onboarding3 from '../../screens/onboardings/onboarding3';
 import HomeScreen from '../../screens/home/HomeScreen';
 import UploadScreen1 from '../../screens/upload/UploadScreen1';
 import UploadScreen2 from '../../screens/upload/UploadScreen2';
+import ProfileScreen from '../../screens/profile/ProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const AppNavigator = () => {
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="UploadScreen1" component={UploadScreen1} />
         <Stack.Screen name="UploadScreen2" component={UploadScreen2} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

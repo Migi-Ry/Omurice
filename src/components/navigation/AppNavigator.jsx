@@ -13,6 +13,7 @@ import CameraScreen from '../../screens/camera/camera';
 import ProfileScreen from '../../screens/profile/ProfileScreen';
 import SettingsScreen from '../../screens/profile/SettingsScreen';
 import AboutScreen from '../../screens/profile/AboutScreen';
+import NotiScreen from '../../screens/noti/NotiScreen';
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ const AppNavigator = () => {
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
         <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
         <Stack.Screen name="AboutScreen" component={AboutScreen} />
+        <Stack.Screen name="NotiScreen" component={NotiScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

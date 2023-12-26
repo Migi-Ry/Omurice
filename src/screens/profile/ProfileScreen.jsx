@@ -29,6 +29,9 @@ const ProfileScreen = ({ navigation }) => {
     else if (navItem === 'Profile') {
       navigation.navigate('ProfileScreen');
     }
+    else if (navItem === 'Notification') {
+      navigation.navigate('NotiScreen');
+    }
   };
 
   const renderRecipeItem = ({ item }) => (

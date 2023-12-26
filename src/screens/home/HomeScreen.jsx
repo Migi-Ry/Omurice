@@ -22,6 +22,8 @@ const HomeScreen = ({ navigation }) => {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Profile') {
       navigation.navigate('ProfileScreen');
+    } else if (navItem === 'Notification') {
+      navigation.navigate('NotiScreen');
     }
 
     // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera

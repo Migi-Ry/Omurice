@@ -12,20 +12,20 @@ import PasswordVerificationScreen from '../../screens/authentication/PasswordVer
 import NewPasswordScreen from '../../screens/authentication/NewPassword';
 import RegisterScreen from '../../screens/authentication/Register';
 import HomeScreen from '../../screens/home/HomeScreen';
+import SearchScreen from '../../screens/search/SearchScreen';
 import UploadScreen1 from '../../screens/upload/UploadScreen1';
 import UploadScreen2 from '../../screens/upload/UploadScreen2';
 import CameraScreen from '../../screens/camera/CameraScreen';
+import ProfileScreen from '../../screens/profile/ProfileScreen';
+import SettingsScreen from '../../screens/profile/SettingsScreen';
+import AboutScreen from '../../screens/profile/AboutScreen';
+import NotiScreen from '../../screens/noti/NotiScreen';
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
 
   return (
     <NavigationContainer>
-      {/* <Tabs.Navigator screenOptions={{headerShown: false}}>
-        <Tabs.Screen name="HomeScreen" component={HomeScreen} />
-        <Tabs.Screen name="UploadScreen" component={UploadScreen1} />
-        <Tabs.Screen name="CameraScreen" component={CameraScreen} />
-      </Tabs.Navigator> */}
       <Stack.Navigator initialRouteName="Onboarding1" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Onboarding1" component={Onboarding1} />
         <Stack.Screen name="Onboarding2" component={Onboarding2} />
@@ -36,9 +36,14 @@ const AppNavigator = () => {
         <Stack.Screen name="PasswordVerificationScreen" component={PasswordVerificationScreen} />
         <Stack.Screen name="NewPasswordScreen" component={NewPasswordScreen} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="SearchScreen" component={SearchScreen} />
         <Stack.Screen name="UploadScreen1" component={UploadScreen1} />
         <Stack.Screen name="UploadScreen2" component={UploadScreen2} />
         <Stack.Screen name="CameraScreen" component={CameraScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+        <Stack.Screen name="AboutScreen" component={AboutScreen} />
+        <Stack.Screen name="NotiScreen" component={NotiScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

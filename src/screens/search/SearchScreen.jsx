@@ -5,31 +5,24 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 
-import recipes from './mockData';
+import recipes from '../home/mockData';
 import { Colors } from '../../../assets/themes/Theme';
 
-const HomeScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedNavItem, setSelectedNavItem] = useState('Home');
-
-  const handleFilterPress = (filter) => {
-    setSelectedFilter(filter);
-  };
-
+  
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
 
-    // Chuyển hướng đến trang khi nhấn vào item nav tương ứng
+    // Chuyển hướng đến trang Upload khi nhấn vào item nav Upload
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
-    } else if (navItem === 'Camera') {
-      navigation.navigate('CameraScreen');
-    } 
-    else if (navItem === 'Profile') {
-      navigation.navigate('ProfileScreen');
-    } else if (navItem === 'Notification') {
-      navigation.navigate('NotiScreen');
+    }
+
+    // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera
+    if (navItem === "Camera") {
+      navigation.navigate("CameraScreen");
     }
   };
 
@@ -84,51 +77,8 @@ const HomeScreen = ({ navigation }) => {
           placeholder="Search"
           placeholderTextColor={Colors.INFO_SECONDARY}
           value={searchValue}
-          onChangeText={setSearchValue}
+          onChangeText={(text) => setSearchValue(text)}
         />
-      </View>
-
-      {/* Filters */}
-      <View style={styles.filterContainer}>
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'All' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('All')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'All' && styles.unselectedFilterText]}>All</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Food' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Food')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Food' && styles.unselectedFilterText]}>Food</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Drinks' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Drinks')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Drinks' && styles.unselectedFilterText]}>Drinks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Dessert' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Dessert')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Dessert' && styles.unselectedFilterText]}>Dessert</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Recipe Scroll */}
@@ -350,4 +300,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SearchScreen;

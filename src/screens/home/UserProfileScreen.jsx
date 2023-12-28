@@ -3,17 +3,17 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, SafeAreaView
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
-import { faCamera, faCog, faBell, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faCog, faBell, faUser, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
-import recipes from '../home/mockData';
+import recipes from './mockData';
 
-const ProfileScreen = ({ navigation }) => {
+const UserProfileScreen = ({ route, navigation }) => {
+  const { userId, userName, userDescription } = route.params;
   const [selectedTab, setSelectedTab] = useState('Recipes');
   const [selectedNavItem, setSelectedNavItem] = useState('Home');
-  const [isModalUserNameVisible, setModalUserNameVisible] = useState(false);
   const [newUsername, setNewUsername] = useState('');
-  const [isModalUserDescriptionVisible, setModalUserDescriptionVisible] = useState(false);
   const [newUserDescription, setNewUserDescription] = useState('');
+  const [forceUpdate, setForceUpdate] = useState(false);
 
   const handleTabPress = (tab) => {
     setSelectedTab(tab);
@@ -21,7 +21,7 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
-  
+
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Home') {
@@ -43,74 +43,74 @@ const ProfileScreen = ({ navigation }) => {
     </View>
   );
 
-  const openModalUserName = () => {
-    setModalUserNameVisible(true);
-  };
-
-  const closeModalUserName = () => {
-    setModalUserNameVisible(false);
-  };
-
-  const openModalUserDescription = () => {
-    setModalUserDescriptionVisible(true);
-  };
-
-  const closeModalUserDescription = () => {
-    setModalUserDescriptionVisible(false);
-  };
-
-  const handleUsernameChange = () => {
-    console.log('New username:', newUsername);
-    closeModalUserName();
-  };
-
-  const handleDescriptionChange = () => {
-    console.log('New description:', newUserDescription);
-    closeModalUserDescription();
-  };
-
   useFocusEffect(
     useCallback(() => {
-      setSelectedNavItem('Profile'); 
+      setSelectedNavItem('Home');
     }, [])
   );
+
+  const userData = recipes.find((recipe) => recipe.userName === userName);
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          style={styles.settingsIcon}
-          onPress={() => navigation.navigate('SettingsScreen')} // Navigate to SettingsScreen
+          style={styles.backIcon}
+          onPress={() => navigation.goBack()}
         >
-          <FontAwesomeIcon icon={faCog} size={20} color="#FF6A00" />
+          <FontAwesomeIcon icon={faChevronLeft} size={20} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.settingsIcon}
+          onPress={() => navigation.navigate('SettingsScreen')}
+        >
+          <FontAwesomeIcon icon={faCog} size={20} color="black" />
         </TouchableOpacity>
       </View>
 
       {/* User Info */}
       <View style={styles.userInfoContainer}>
-        <Image source={require('../../../assets/images/Avatar1.png')} style={styles.avatar} />
-        <TouchableOpacity onPress={openModalUserName}>
-          <Text style={styles.userName}>John Doe</Text>
+        <Image source={userData.avatar} style={styles.avatar} />
+        <TouchableOpacity>
+          <Text style={styles.userName}>{userName}</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={openModalUserDescription}>
-          <Text style={styles.userDescription}>Food lover | Cooking enthusiast</Text>
+        <TouchableOpacity>
+          <Text style={styles.userDescription}>{userDescription}</Text>
         </TouchableOpacity>
 
         {/* Grid */}
         <View style={styles.gridContainer}>
           <View style={styles.gridItem}>
-            <Text style={styles.gridNumber}>20</Text>
+            <Text style={styles.gridNumber}>{userData.recipes}</Text>
             <Text style={styles.gridLabel}>Recipes</Text>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridNumber}>54</Text>
+            <Text style={styles.gridNumber}>{userData.follow}</Text>
             <Text style={styles.gridLabel}>Following</Text>
           </View>
           <View style={styles.gridItem}>
-            <Text style={styles.gridNumber}>1,503</Text>
+            <Text style={styles.gridNumber}>{userData.followers}</Text>
             <Text style={styles.gridLabel}>Followers</Text>
           </View>
+        </View>
+
+        {/* Follow Button */}
+        <View style={styles.followButtonContainer}>
+          <TouchableOpacity
+            style={[
+              styles.followButton,
+              userData.following ? styles.followedButton : styles.followButton,
+            ]}
+            onPress={() => {
+              userData.following = !userData.following;
+              setForceUpdate((prev) => !prev);
+            }}
+          >
+            <Text style={[styles.followButtonText, { color: userData.following ? 'black' : 'white' }]}>
+              {userData.following ? 'Followed' : 'Follow'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Border Line */}
@@ -118,19 +118,19 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Tabs */}
         <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Recipes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Likes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Recipes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Likes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Recipe List */}
@@ -183,55 +183,6 @@ const ProfileScreen = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      {/* Change Username Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalUserNameVisible}
-        onRequestClose={closeModalUserName}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={closeModalUserName}>
-              <FontAwesomeIcon icon={faXmark} color='white' />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter new username"
-              placeholderTextColor="#FF6A00"
-              onChangeText={(text) => setNewUsername(text)}
-            />
-            <TouchableOpacity style={styles.okButton} onPress={handleUsernameChange}>
-              <Text style={styles.okButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      {/* Change UserDescription Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalUserDescriptionVisible}
-        onRequestClose={closeModalUserDescription}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity style={styles.closeButton} onPress={closeModalUserDescription}>
-              <FontAwesomeIcon icon={faXmark} color='white' />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter new description"
-              placeholderTextColor="#FF6A00"
-              onChangeText={(text) => setNewUserDescription(text)}
-            />
-            <TouchableOpacity style={styles.okButton} onPress={handleDescriptionChange}>
-              <Text style={styles.okButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };
@@ -243,9 +194,12 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     padding: 16,
     marginTop: 10,
+  },
+  backIcon: {
+    marginLeft: 10,
   },
   settingsIcon: {
     marginRight: 10,
@@ -274,7 +228,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     marginHorizontal: 16,
-    marginBottom: 16,
   },
   gridItem: {
     alignItems: 'center',
@@ -287,6 +240,28 @@ const styles = StyleSheet.create({
   },
   gridLabel: {
     color: '#9FA5C0',
+  },
+  followButtonContainer: {
+    alignItems: 'center',
+    marginVertical: 24,
+  },
+  followButton: {
+    width: 200,
+    height: 48,
+    backgroundColor: '#FF6A00',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  followedButton: {
+    backgroundColor: '#F1F1F1',
+  },
+
+  followButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
   },
   borderLine: {
     width: '100%',
@@ -410,7 +385,7 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: '#FF6A00',
     marginTop: 16,
-    borderRadius: 20, 
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     color: 'white',
@@ -426,4 +401,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;
+export default UserProfileScreen;

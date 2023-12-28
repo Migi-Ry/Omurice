@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
   const renderRecipeItem = ({ item }) => (
     <View style={styles.recipeItem}>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => navigation.navigate('UserProfileScreen', { userId: item.id, userName: item.userName, userDescription: item.userDescription })}
         style={styles.userContainer}
       >
         <Image source={item.avatar} style={styles.avatarContainer} />

@@ -69,10 +69,9 @@ const ProfileScreen = ({ navigation }) => {
     closeModalUserDescription();
   };
 
-  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
   useFocusEffect(
     useCallback(() => {
-      setSelectedNavItem('Profile'); // Thiết lập trạng thái khi màn hình được tập trung
+      setSelectedNavItem('Profile'); 
     }, [])
   );
 
@@ -119,19 +118,19 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Tabs */}
         <View style={styles.tabsContainer}>
-          <TouchableOpacity
-            style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
-            onPress={() => handleTabPress('Recipes')}
-          >
-            <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
-            onPress={() => handleTabPress('Likes')}
-          >
-            <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
+          onPress={() => handleTabPress('Recipes')}
+        >
+          <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
+          onPress={() => handleTabPress('Likes')}
+        >
+          <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
+        </TouchableOpacity>
+      </View>
       </View>
 
       {/* Recipe List */}

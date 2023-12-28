@@ -10,7 +10,7 @@ const NotiScreen = ({ navigation }) => {
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
-
+  
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Profile') {
@@ -26,7 +26,7 @@ const NotiScreen = ({ navigation }) => {
 
   const filterByDate = (dateCriteria) => {
     const sortedNotifications = notifications.sort((a, b) => b.id - a.id);
-
+    
     if (dateCriteria === 'New') {
       return sortedNotifications.slice(0, 2);
     } else if (dateCriteria === 'Today') {
@@ -54,10 +54,9 @@ const NotiScreen = ({ navigation }) => {
     <Text style={styles.sectionTitle}>{title}</Text>
   );
 
-  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
   useFocusEffect(
     useCallback(() => {
-      setSelectedNavItem('Notification'); // Thiết lập trạng thái khi màn hình được tập trung
+      setSelectedNavItem('Notification');
     }, [])
   );
 
@@ -68,7 +67,7 @@ const NotiScreen = ({ navigation }) => {
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
-        showsVerticalScrollIndicator={false} // Ẩn thanh cuộn dọc
+        showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
       />
 
       {/* Bottom Navigation */}

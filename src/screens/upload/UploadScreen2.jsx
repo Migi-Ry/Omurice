@@ -7,15 +7,12 @@ import Modal from 'react-native-modal';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faGripVertical, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import { Colors } from '../../../assets/themes/Theme';
 
 const UploadScreen2 = ({ navigation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
 
   navigation = useNavigation();
-
-  const handleBackPress = () => {
-    navigation.goBack();
-  };
 
   const handleFinishPress = () => {
     setModalVisible(true);
@@ -48,26 +45,26 @@ const UploadScreen2 = ({ navigation }) => {
           <View style={styles.ingredientsRow}>
             <FontAwesomeIcon
               icon={faGripVertical}
-              color="#9FA5C0"
+              color={Colors.INFO_SECONDARY}
               style={styles.gripIcon}
             />
             <TextInput
               style={styles.ingredientsInputText}
               placeholder="Enter ingredient"
-              placeholderTextColor="#9FA5C0"
+              placeholderTextColor={Colors.INFO_SECONDARY}
             />
           </View>
 
           <View style={styles.ingredientsRow}>
             <FontAwesomeIcon
               icon={faGripVertical}
-              color="#9FA5C0"
+              color={Colors.INFO_SECONDARY}
               style={styles.gripIcon}
             />
             <TextInput
               style={styles.ingredientsInputText}
               placeholder="Enter ingredient"
-              placeholderTextColor="#9FA5C0"
+              placeholderTextColor={Colors.INFO_SECONDARY}
             />
           </View>
 
@@ -85,13 +82,13 @@ const UploadScreen2 = ({ navigation }) => {
             <TextInput
               style={[styles.stepInputText, { height: 100 }]}
               placeholder="Tell a little about your food"
-              placeholderTextColor="#9FA5C0"
+              placeholderTextColor={Colors.INFO_SECONDARY}
               multiline
             />
           </View>
 
           <TouchableOpacity style={styles.addStepsButton}>
-            <FontAwesomeIcon icon={faPlus} size={22} color="#FF6A00" />
+            <FontAwesomeIcon icon={faPlus} size={22} color={Colors.PRIMARY_MAIN} />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -99,7 +96,7 @@ const UploadScreen2 = ({ navigation }) => {
       {/* Back & Finish Button */}
       <HideWithKeyboard>
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
             <Text style={styles.backButtonText}>Back</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   cancelText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 18,
   },
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   finishButtonText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontSize: 18,
     fontWeight: 'bold',
   },
@@ -174,12 +171,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionHeaderText: {
-    color: '#2E3E5C',
+    color: Colors.INFO_MAIN,
     fontFamily: "MulishBold",
     fontSize: 18,
   },
   sectionButton: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishMedium",
     fontSize: 16,
   },
@@ -187,16 +184,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    color: '#9FA5C0'
+    color: Colors.INFO_SECONDARY,
   },
   gripIcon: {
     marginRight: "3%",
-    color: '#9FA5C0'
+    color: Colors.INFO_SECONDARY,
   },
   ingredientsInputText: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#9FA5C0',
+    borderColor: Colors.INFO_SECONDARY,
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginVertical: 10,
@@ -204,10 +201,10 @@ const styles = StyleSheet.create({
     fontFamily: "MulishMedium",
   },
   addButton: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: '#9FA5C0',
+    borderColor: Colors.INFO_SECONDARY,
     top: 16,
     paddingVertical: 12,
     paddingHorizontal: 16,
@@ -229,7 +226,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 14,
     fontWeight: 'bold',
-    backgroundColor: '#2e3e5c',
+    backgroundColor: Colors.INFO_MAIN,
     textAlign: 'center',
     justifyContent: 'center',
     textAlignVertical: 'center',
@@ -238,7 +235,7 @@ const styles = StyleSheet.create({
   stepInputText: {
     flex: 1,
     borderWidth: 1,
-    borderColor: '#9FA5C0',
+    borderColor: Colors.INFO_SECONDARY,
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginVertical: "3%",
@@ -246,8 +243,8 @@ const styles = StyleSheet.create({
     fontFamily: "MulishMedium",
   },
   addStepsButton: {
-    color: '#FF6A00',
-    backgroundColor: '#F4F5F7',
+    color: Colors.PRIMARY_MAIN,
+    backgroundColor: Colors.PRIMARY_SECONDARY,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 15,
@@ -262,7 +259,7 @@ const styles = StyleSheet.create({
   },
   backButton: {
     flex: 1,
-    backgroundColor: '#F4F5F7',
+    backgroundColor: Colors.PRIMARY_SECONDARY,
     padding: 14,
     borderRadius: 30,
     alignItems: 'center',
@@ -270,13 +267,13 @@ const styles = StyleSheet.create({
   finishButton: {
     color: 'white',
     flex: 1,
-    backgroundColor: '#FF6A00',
+    backgroundColor: Colors.PRIMARY_MAIN,
     padding: 14,
     borderRadius: 30,
     alignItems: 'center',
   },
   backButtonText: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 16,
     textAlignVertical: 'center',
@@ -308,7 +305,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontFamily: "MulishMedium",
     fontSize: 14,
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
     marginBottom: "10%",
     textAlign: 'center',
   },
@@ -317,7 +314,7 @@ const styles = StyleSheet.create({
     height: 120
   },
   modalButton: {
-    backgroundColor: '#1fcc79',
+    backgroundColor: Colors.SUCCESS_MAIN,
     paddingVertical: "6%",
     paddingHorizontal: "10%",
     color: 'white',

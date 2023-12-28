@@ -1,13 +1,11 @@
 import React from 'react';
 import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 
+import { Colors } from '../../../assets/themes/Theme';
+
 const Onboarding2 = ({ navigation }) => {
   const data = [1, 2, 3]; // Số lượng dots
   const activeIndex = 1; // Chỉ số của màn hình đang ở
-
-  const handleNext = () => {
-    navigation.navigate('Onboarding3');
-  };
 
   return (
     <View style={styles.container}>
@@ -39,7 +37,7 @@ const Onboarding2 = ({ navigation }) => {
               style={[
                 styles.dot,
                 {
-                  backgroundColor: index === activeIndex ? '#FF6A00' : '#D3D3D3', // Màu của dot đang được chọn và màu của các dot khác
+                  backgroundColor: index === activeIndex ? Colors.PRIMARY_MAIN : '#D3D3D3', // Màu của dot đang được chọn và màu của các dot khác
                 },
               ]}
             />
@@ -50,7 +48,7 @@ const Onboarding2 = ({ navigation }) => {
       </View>
 
       {/* Nút chuyển trang */}
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleNext}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => {navigation.navigate("Onboarding3")}}>
         <View style={styles.customButton}>
           <Text style={styles.buttonText}>Next</Text>
         </View>
@@ -64,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: "5%",
     backgroundColor: 'white'
   },
   logo: {
@@ -73,7 +71,7 @@ const styles = StyleSheet.create({
     marginTop: "-15%",
   },
   appName: {
-    color: '#FF6A00',
+    color: Colors.PRIMARY_MAIN,
     marginTop: "-5%", 
     fontFamily: "Pacifico",
     fontSize: 24,
@@ -109,9 +107,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   customButton: {
-    height: 45,
+    height: 55,
     borderRadius: 30,
-    backgroundColor: '#FF6A00',
+    backgroundColor: Colors.PRIMARY_MAIN,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: -50
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
   dot: {
     width: 8,
     height: 8,
-    borderRadius: 5,
+    borderRadius: 10,
     marginHorizontal: 5,
   }
 });

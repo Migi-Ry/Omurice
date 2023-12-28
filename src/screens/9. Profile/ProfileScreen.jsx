@@ -5,7 +5,8 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faCog, faBell, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
-import recipes from '../home/mockData';
+import recipes from '../3. Home/mockData';
+import { Colors } from '../../../assets/themes/Theme';
 
 const ProfileScreen = ({ navigation }) => {
   const [selectedTab, setSelectedTab] = useState('Recipes');
@@ -30,6 +31,8 @@ const ProfileScreen = ({ navigation }) => {
       navigation.navigate('ProfileScreen');
     } else if (navItem === 'Notification') {
       navigation.navigate('NotiScreen');
+    } else if (navItem === 'Camera') {
+      navigation.navigate('CameraScreen');
     }
   };
 
@@ -38,7 +41,7 @@ const ProfileScreen = ({ navigation }) => {
       <Image source={item.image} style={styles.recipeImage} />
       <Text style={styles.recipeName}>{item.name}</Text>
       <View style={styles.recipeInfo}>
-        <Text style={styles.categoryInfo}>{item.category}</Text>
+        <Text style={styles.categoryInfo}>{item.category}{item.time}</Text>
       </View>
     </View>
   );
@@ -111,26 +114,26 @@ const ProfileScreen = ({ navigation }) => {
             <Text style={styles.gridNumber}>1,503</Text>
             <Text style={styles.gridLabel}>Followers</Text>
           </View>
+          </View>
+
+          {/* Border Line */}
+          <View style={styles.borderLine} />
+
+          {/* Tabs */}
+          <View style={styles.tabsContainer}>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Recipes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Likes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* Border Line */}
-        <View style={styles.borderLine} />
-
-        {/* Tabs */}
-        <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Recipes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Likes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
-        </TouchableOpacity>
-      </View>
       </View>
 
       {/* Recipe List */}
@@ -148,38 +151,61 @@ const ProfileScreen = ({ navigation }) => {
           style={styles.navItem}
           onPress={() => handleNavPress('Home')}
         >
-          <FontAwesomeIcon icon={faHouse} size={20} color={selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Home' ? '#FF6A00' : '#9FA5C0' }]}>Home</Text>
+          <FontAwesomeIcon icon={faHouse} size={20} color={selectedNavItem === 'Home' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Home' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
+            numberOfLines={1}
+          >
+            Home
+          </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Upload')}
         >
-          <FontAwesomeIcon icon={faPenToSquare} size={20} color={selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Upload' ? '#FF6A00' : '#9FA5C0' }]}>Upload</Text>
+          <FontAwesomeIcon icon={faPenToSquare} size={20} color={selectedNavItem === 'Upload' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Upload' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
+            numberOfLines={1}
+          >
+            Upload
+          </Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Camera')}
         >
           <View style={styles.cameraIcon}>
-            <FontAwesomeIcon icon={faCamera} size={20} color={selectedNavItem === 'Camera' ? 'white' : '#F1F1F1'} />
+            <FontAwesomeIcon icon={faCamera} size={20} color={'white'} />
           </View>
-          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? '#FF6A00' : '#9FA5C0' }]}>Camera</Text>
+          <Text style={[styles.navText, { color: selectedNavItem === 'Camera' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY, marginTop: "29%" }]}>Camera</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Notification')}
         >
-          <FontAwesomeIcon icon={faBell} size={20} color={selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Notification' ? '#FF6A00' : '#9FA5C0' }]}>Notification</Text>
+          <FontAwesomeIcon icon={faBell} size={20} color={selectedNavItem === 'Notification' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Notification' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
+            numberOfLines={1}
+          >
+            Notification
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navItem}
           onPress={() => handleNavPress('Profile')}
         >
-          <FontAwesomeIcon icon={faUser} size={20} color={selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0'} />
-          <Text style={[styles.navText, { color: selectedNavItem === 'Profile' ? '#FF6A00' : '#9FA5C0' }]}>Profile</Text>
+          <FontAwesomeIcon icon={faUser} size={20} color={selectedNavItem === 'Profile' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY} />
+          <Text
+            style={[styles.navText, { color: selectedNavItem === 'Profile' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}
+            numberOfLines={1}
+          >
+            Profile
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -198,7 +224,7 @@ const ProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Enter new username"
-              placeholderTextColor="#FF6A00"
+              placeholderTextColor="white"
               onChangeText={(text) => setNewUsername(text)}
             />
             <TouchableOpacity style={styles.okButton} onPress={handleUsernameChange}>
@@ -223,7 +249,7 @@ const ProfileScreen = ({ navigation }) => {
             <TextInput
               style={styles.input}
               placeholder="Enter new description"
-              placeholderTextColor="#FF6A00"
+              placeholderTextColor="white"
               onChangeText={(text) => setNewUserDescription(text)}
             />
             <TouchableOpacity style={styles.okButton} onPress={handleDescriptionChange}>
@@ -244,11 +270,11 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    padding: 16,
-    marginTop: 10,
+    padding: "2.5%",
+    marginTop: "3%",
   },
   settingsIcon: {
-    marginRight: 10,
+    marginRight: "4%",
   },
   userInfoContainer: {
     alignItems: 'center',
@@ -262,113 +288,113 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
-    marginBottom: 4,
+    fontFamily: "MulishBold",
+    color: Colors.INFO_MAIN,
   },
   userDescription: {
-    color: '#9FA5C0',
-    marginBottom: 16,
+    color: Colors.INFO_SECONDARY,
+    fontFamily: "MulishMedium",
   },
   gridContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginHorizontal: 16,
-    marginBottom: 16,
+    marginHorizontal: "5%",
+    marginVertical: "5%",
   },
   gridItem: {
     alignItems: 'center',
-    marginHorizontal: 20,
+    marginHorizontal: "5%",
   },
   gridNumber: {
     fontSize: 20,
-    fontWeight: 'bold',
-    color: 'black',
+    fontFamily: "MulishBold",
+    color: Colors.INFO_MAIN,
   },
   gridLabel: {
-    color: '#9FA5C0',
+    fontFamily: "MulishLight",
+    color: Colors.INFO_SECONDARY,
   },
   borderLine: {
     width: '100%',
-    height: 8,
+    height: 5,
     backgroundColor: '#F1F1F1',
   },
   tabsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginHorizontal: 16,
-    marginTop: 16,
+    marginHorizontal: "5%",
+    marginTop: "4%",
   },
   tabItem: {
     flex: 1,
     alignItems: 'center',
-    paddingBottom: 8,
+    paddingBottom: "3%",
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
   },
   tabText: {
     fontSize: 18,
-    color: '#9FA5C0',
+    fontFamily: "MulishMedium",
+    color: Colors.INFO_SECONDARY,
   },
   selectedTabItem: {
-    borderBottomColor: '#FF6A00',
+    borderBottomColor: Colors.PRIMARY_MAIN,
   },
   selectedTabText: {
-    color: 'black',
-    fontWeight: 'bold',
+    color: Colors.PRIMARY_MAIN,
+    fontFamily: "MulishBold",
   },
   recipeList: {
-    paddingHorizontal: 16,
+    paddingHorizontal: "5%",
     justifyContent: 'space-between',
     gap: 4,
   },
   recipeItem: {
     width: 150,
-    marginLeft: 16,
-    marginBottom: 16,
-    marginRight: 10,
+    justifyContent: "space-between",
+    marginHorizontal: "2%",
   },
   recipeImage: {
     width: 150,
     height: 150,
-    marginVertical: 16,
+    marginVertical: "5%",
     borderRadius: 20
   },
   recipeName: {
-    color: '#FF6A00',
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'black'
+    fontSize: 20,
+    fontFamily: "MulishBold",
+    color: Colors.PRIMARY_MAIN,
   },
   recipeInfo: {
-    marginTop: 4,
+    marginBottom: "5%",
   },
   categoryInfo: {
-    color: '#9FA5C0',
+    fontFamily: "MulishMedium",
+    fontSize: 12,
+    color: Colors.INFO_SECONDARY,
   },
   bottomNavigation: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#F1F1F1',
-    paddingVertical: 8,
+    justifyContent: 'space-between',
+    alignItems: "center",
+    paddingVertical: "3%",
+    backgroundColor: "white",
   },
   navItem: {
     flex: 1,
     alignItems: 'center',
   },
   navText: {
-    color: '#9FA5C0',
+    color: Colors.INFO_SECONDARY,
+    fontFamily: "MulishMedium",
     fontSize: 12,
-    top: 5,
+    top: "7%",
   },
   cameraIcon: {
     position: 'absolute',
-    top: -49,
-    backgroundColor: '#FF6A00',
+    top: "-105%",
+    backgroundColor: Colors.PRIMARY_MAIN,
     borderRadius: 50,
-    padding: 8,
     width: 55,
     height: 55,
     justifyContent: 'center',
@@ -378,7 +404,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: "black",
+    opacity: 0.9,
   },
   modalContent: {
     width: '100%', // Adjusted to span from left to right
@@ -397,7 +424,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderBottomColor: '#FF6A00', // Set border color for bottom only
+    borderBottomColor: Colors.PRIMARY_MAIN, // Set border color for bottom only
     borderBottomWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,

@@ -5,7 +5,7 @@ import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faCog, faBell, faUser, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
-import recipes from './mockData';
+import recipes from '../3. Home/mockData';
 
 const UserProfileScreen = ({ route, navigation }) => {
   const { userId, userName, userDescription } = route.params;

@@ -1,49 +1,35 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList, SafeAreaView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useFocusEffect } from '@react-navigation/native';
+
+import recipes from '../3. Home/mockData';
 import { Colors } from '../../../assets/themes/Theme';
-import recipes from './mockData';
 
-
-const HomeScreen = ({ navigation }) => {
+const SearchScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('All');
   const [selectedNavItem, setSelectedNavItem] = useState('Home');
-
-  const handleFilterPress = (filter) => {
-    setSelectedFilter(filter);
-  };
-
+  
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
 
+    // Chuyển hướng đến trang Upload khi nhấn vào item nav Upload
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
-    } else if (navItem === 'Profile') {
-      navigation.navigate('ProfileScreen');
-    } else if (navItem === 'Notification') {
-      navigation.navigate('NotiScreen');
     }
 
     // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera
-    if (navItem === 'Camera') {
-      navigation.navigate('CameraScreen');
-    } 
-    else if (navItem === 'Profile') {
-      navigation.navigate('ProfileScreen');
-    } else if (navItem === 'Notification') {
-      navigation.navigate('NotiScreen');
+    if (navItem === "Camera") {
+      navigation.navigate("CameraScreen");
     }
   };
 
   const renderRecipeItem = ({ item }) => (
     <View style={styles.recipeItem}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('UserProfileScreen', { userId: item.id, userName: item.userName, userDescription: item.userDescription })}
+        onPress={() => {}}
         style={styles.userContainer}
       >
         <Image source={item.avatar} style={styles.avatarContainer} />
@@ -57,28 +43,21 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>
-
+      
       <View style={styles.recipeInfo}>
         <Text style={styles.categoryInfo}>{item.category}</Text>
       </View>
     </View>
   );
 
-  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
-  useFocusEffect(
-    useCallback(() => {
-      setSelectedNavItem('Home'); // Thiết lập trạng thái khi màn hình được tập trung
-    }, [])
-  );
-
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={"white"} barStyle={'dark-content'} />
+      <StatusBar backgroundColor={"white"} barStyle={'dark-content'}/>
 
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.appName}>Omurice</Text>
-
+        
         <View style={styles.headerRight}>
           <TouchableOpacity>
             <Text style={styles.exploreText}>EXPLORE</Text>
@@ -98,51 +77,8 @@ const HomeScreen = ({ navigation }) => {
           placeholder="Search"
           placeholderTextColor={Colors.INFO_SECONDARY}
           value={searchValue}
-          onChangeText={setSearchValue}
+          onChangeText={(text) => setSearchValue(text)}
         />
-      </View>
-
-      {/* Filters */}
-      <View style={styles.filterContainer}>
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'All' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('All')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'All' && styles.unselectedFilterText]}>All</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Food' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Food')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Food' && styles.unselectedFilterText]}>Food</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Drinks' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Drinks')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Drinks' && styles.unselectedFilterText]}>Drinks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Dessert' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Dessert')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Dessert' && styles.unselectedFilterText]}>Dessert</Text>
-        </TouchableOpacity>
       </View>
 
       {/* Recipe Scroll */}
@@ -291,12 +227,14 @@ const styles = StyleSheet.create({
   },
   recipeList: {
     justifyContent: 'space-between',
-    alignItems: 'center',
+    marginHorizontal: "5%",
+    gap: 5,
   },
   recipeItem: {
     width: 150,
     marginBottom: 16,
-    marginHorizontal: 12
+    marginLeft: "1.5%",
+    marginRight: "2%",
   },
   userContainer: {
     flexDirection: 'row',
@@ -362,4 +300,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SearchScreen;

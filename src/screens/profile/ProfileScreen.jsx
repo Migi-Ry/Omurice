@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, SafeAreaView, Modal, TextInput, Button } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faCog, faBell, faUser, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
 import recipes from './mockData';
 
 const ProfileScreen = ({ navigation }) => {
@@ -25,11 +26,9 @@ const ProfileScreen = ({ navigation }) => {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Home') {
       navigation.navigate('HomeScreen');
-    }
-    else if (navItem === 'Profile') {
+    } else if (navItem === 'Profile') {
       navigation.navigate('ProfileScreen');
-    }
-    else if (navItem === 'Notification') {
+    } else if (navItem === 'Notification') {
       navigation.navigate('NotiScreen');
     }
   };
@@ -66,10 +65,16 @@ const ProfileScreen = ({ navigation }) => {
   };
 
   const handleDescriptionChange = () => {
-    console.log('New discription:', newUserDescription);
+    console.log('New description:', newUserDescription);
     closeModalUserDescription();
   };
 
+  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedNavItem('Profile'); // Thiết lập trạng thái khi màn hình được tập trung
+    }, [])
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -114,19 +119,19 @@ const ProfileScreen = ({ navigation }) => {
 
         {/* Tabs */}
         <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Recipes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
-          onPress={() => handleTabPress('Likes')}
-        >
-          <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Recipes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Recipes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Recipes' && styles.selectedTabText]}>Recipes</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tabItem, selectedTab === 'Likes' && styles.selectedTabItem]}
+            onPress={() => handleTabPress('Likes')}
+          >
+            <Text style={[styles.tabText, selectedTab === 'Likes' && styles.selectedTabText]}>Likes</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Recipe List */}

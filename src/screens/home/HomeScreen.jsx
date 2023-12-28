@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList, SafeAreaView } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
 import recipes from './mockData';
 
 const HomeScreen = ({ navigation }) => {
@@ -17,7 +18,7 @@ const HomeScreen = ({ navigation }) => {
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
-  
+
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Profile') {
@@ -49,21 +50,28 @@ const HomeScreen = ({ navigation }) => {
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>
-      
+
       <View style={styles.recipeInfo}>
         <Text style={styles.categoryInfo}>{item.category}</Text>
       </View>
     </View>
   );
 
+  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedNavItem('Home'); // Thiết lập trạng thái khi màn hình được tập trung
+    }, [])
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={"white"} barStyle={'dark-content'}/>
+      <StatusBar backgroundColor={"white"} barStyle={'dark-content'} />
 
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.appName}>Omurice</Text>
-        
+
         <View style={styles.headerRight}>
           <TouchableOpacity>
             <Text style={styles.exploreText}>EXPLORE</Text>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, SectionList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faCamera, faBell, faPenToSquare,faHouse, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faBell, faPenToSquare, faHouse, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useFocusEffect } from '@react-navigation/native'; // Import useFocusEffect
 import notifications from './mockData';
 
 const NotiScreen = ({ navigation }) => {
@@ -9,7 +10,7 @@ const NotiScreen = ({ navigation }) => {
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
-  
+
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
     } else if (navItem === 'Profile') {
@@ -25,7 +26,7 @@ const NotiScreen = ({ navigation }) => {
 
   const filterByDate = (dateCriteria) => {
     const sortedNotifications = notifications.sort((a, b) => b.id - a.id);
-    
+
     if (dateCriteria === 'New') {
       return sortedNotifications.slice(0, 2);
     } else if (dateCriteria === 'Today') {
@@ -53,6 +54,13 @@ const NotiScreen = ({ navigation }) => {
     <Text style={styles.sectionTitle}>{title}</Text>
   );
 
+  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
+  useFocusEffect(
+    useCallback(() => {
+      setSelectedNavItem('Notification'); // Thiết lập trạng thái khi màn hình được tập trung
+    }, [])
+  );
+
   return (
     <View style={styles.container}>
       <SectionList
@@ -60,7 +68,7 @@ const NotiScreen = ({ navigation }) => {
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
-        showsVerticalScrollIndicator={false} // Hide vertical scroll indicator
+        showsVerticalScrollIndicator={false} // Ẩn thanh cuộn dọc
       />
 
       {/* Bottom Navigation */}
@@ -163,13 +171,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    paddingHorizontal: 24,
     backgroundColor: 'white',
   },
   gridItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 8,
+    paddingHorizontal: 24,
   },
   textContainer: {
     flex: 1,
@@ -205,6 +213,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 16,
+    paddingHorizontal: 24,
   },
   bottomNavigation: {
     flexDirection: 'row',

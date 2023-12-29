@@ -1,35 +1,111 @@
-import React, { useState } from 'react';
-import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList, SafeAreaView } from 'react-native';
+import React from 'react';
+import { FlatList, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useFocusEffect } from '@react-navigation/native';
 
-import recipes from '../3. Home/mockData';
 import { Colors } from '../../../assets/themes/Theme';
+import recipes from '../3. Home/mockData';
+import Tabs from '../../components/Tab';
+import CardFavoriteIcon from '../../components/CardFavoriteIcon';
 
-const SearchScreen = ({ navigation }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedNavItem, setSelectedNavItem] = useState('Home');
+const SearchScreen = ({ route, navigation }) => {
+  const { searchedValue } = route.params;
+  const [searchValue, setSearchValue] = React.useState('');
+  const [selectedNavItem, setSelectedNavItem] = React.useState('Home');
   
+  const tabs = [
+    {
+      title: "All",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Food",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Food")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Drink",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Drink")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Dessert",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Dessert")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+  ];
+
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
 
-    // Chuyển hướng đến trang Upload khi nhấn vào item nav Upload
     if (navItem === 'Upload') {
       navigation.navigate('UploadScreen1');
+    } else if (navItem === 'Profile') {
+      navigation.navigate('ProfileScreen');
+    } else if (navItem === 'Notification') {
+      navigation.navigate('NotiScreen');
     }
 
     // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera
-    if (navItem === "Camera") {
-      navigation.navigate("CameraScreen");
+    if (navItem === 'Camera') {
+      navigation.navigate('CameraScreen');
+    } 
+    else if (navItem === 'Profile') {
+      navigation.navigate('ProfileScreen');
+    } else if (navItem === 'Notification') {
+      navigation.navigate('NotiScreen');
     }
   };
 
   const renderRecipeItem = ({ item }) => (
     <View style={styles.recipeItem}>
       <TouchableOpacity
-        onPress={() => {}}
+        onPress={() => navigation.navigate('UserProfileScreen', { userId: item.id, userName: item.userName, userDescription: item.userDescription })}
         style={styles.userContainer}
       >
         <Image source={item.avatar} style={styles.avatarContainer} />
@@ -40,24 +116,33 @@ const SearchScreen = ({ navigation }) => {
         <Image source={item.image} style={styles.recipeImage} />
       </TouchableOpacity>
 
+      <CardFavoriteIcon onPress={() => {}}/>
+
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>
-      
+
       <View style={styles.recipeInfo}>
-        <Text style={styles.categoryInfo}>{item.category}</Text>
+        <Text style={styles.categoryInfo}>{item.category}{item.time}</Text>
       </View>
     </View>
   );
 
+  // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
+  useFocusEffect(
+    React.useCallback(() => {
+      setSelectedNavItem('Home'); // Thiết lập trạng thái khi màn hình được tập trung
+    }, [])
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={"white"} barStyle={'dark-content'}/>
+      <StatusBar backgroundColor={"white"} barStyle={'dark-content'} />
 
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.appName}>Omurice</Text>
-        
+
         <View style={styles.headerRight}>
           <TouchableOpacity>
             <Text style={styles.exploreText}>EXPLORE</Text>
@@ -71,25 +156,26 @@ const SearchScreen = ({ navigation }) => {
 
       {/* Search */}
       <View style={styles.searchContainer}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} color={Colors.INFO_SECONDARY} />
-        <TextInput
-          style={styles.searchTextInput}
-          placeholder="Search"
-          placeholderTextColor={Colors.INFO_SECONDARY}
-          value={searchValue}
-          onChangeText={(text) => setSearchValue(text)}
-        />
-      </View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesomeIcon icon={faChevronLeft} style={styles.backIcon} size={18} />
+        </TouchableOpacity>
 
-      {/* Recipe Scroll */}
-      <FlatList
-        data={recipes}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
+        <View style={styles.searchInputContainer}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} color={Colors.INFO_SECONDARY} />
+          <TextInput
+            style={styles.searchTextInput}
+            placeholder={searchedValue}
+            placeholderTextColor={Colors.INFO_SECONDARY}
+            value={searchValue}
+            onChangeText={setSearchValue}
+            onSubmitEditing={() => { searchValue ? navigation.navigate("SearchScreen", { searchedValue: searchValue }) : false }}
+          />
+        </View>
+      </View>
+      
+
+      {/* Tabs */}
+      <Tabs items={tabs}/>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNavigation}>
@@ -179,16 +265,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   exploreText: {
-    color: Colors.PRIMARY_MAIN,    
-    marginRight: "3%",
+    fontFamily: "MulishMedium",
+    color: Colors.PRIMARY_MAIN,
+    marginRight: "4%",
   },
   justForYouText: {
+    fontFamily: "MulishMedium",
     color: Colors.INFO_SECONDARY,
   },
   searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: "5%",
+  },
+  backIcon: {
+    marginRight: "4%",
+    color: Colors.INFO_SECONDARY,
+  },
+  searchInputContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: "5%",
     paddingLeft: "5%",
     backgroundColor: '#F1F1F1',
     paddingVertical: "3%",
@@ -200,41 +297,13 @@ const styles = StyleSheet.create({
     color: Colors.INFO_SECONDARY,
     fontFamily: "MulishMedium",
   },
-  filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: "5%",
-    alignItems: 'center',
-  },
-  selectedFilter: {
-    backgroundColor: Colors.PRIMARY_MAIN,
-  },
-  unselectedFilterText: {
-    color: Colors.INFO_SECONDARY,
-  },
-  filterItem: {
-    backgroundColor: '#F1F1F1',
-    alignItems: 'center',
-    padding: "3%",
-    borderRadius: 30,
-    width: 72,
-    height: 40,
-  },
-  filterText: {
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: "MulishMedium",
-  },
   recipeList: {
     justifyContent: 'space-between',
-    marginHorizontal: "5%",
-    gap: 5,
   },
   recipeItem: {
     width: 150,
     marginBottom: 16,
-    marginLeft: "1.5%",
-    marginRight: "2%",
+    marginHorizontal: "2%",
   },
   userContainer: {
     flexDirection: 'row',
@@ -277,6 +346,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     paddingVertical: "3%",
+    backgroundColor: "white",
   },
   navItem: {
     flex: 1,

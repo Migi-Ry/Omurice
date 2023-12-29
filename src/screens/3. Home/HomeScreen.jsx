@@ -12,66 +12,70 @@ import Tabs from '../../components/Tab';
 
 const HomeScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = React.useState('');
-  const [selectedFilter, setSelectedFilter] = React.useState('All');
   const [selectedNavItem, setSelectedNavItem] = React.useState('Home');
   
   const tabs = [
-  {
-    title: "All",
-    content: () => <View>
-      <FlatList
-        data={recipes}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
-    </View>
-  },
-  {
-    title: "Food",
-    content: () => <View>
-      <FlatList
-        data={recipes.filter(recipes => recipes.category == "Food")}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
-    </View>
-  },
-  {
-    title: "Drink",
-    content: () => <View>
-      <FlatList
-        data={recipes.filter(recipes => recipes.category == "Drink")}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
-    </View>
-  },
-  {
-    title: "Dessert",
-    content: () => <View>
-      <FlatList
-        data={recipes.filter(recipes => recipes.category == "Dessert")}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
-    </View>
-  },
-];
-  const handleFilterPress = (filter) => {
-    setSelectedFilter(filter);
-  };
+      {
+      title: "All",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Food",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Food")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Drink",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Drink")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Dessert",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Dessert")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+  ];
 
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
@@ -154,6 +158,7 @@ const HomeScreen = ({ navigation }) => {
           placeholderTextColor={Colors.INFO_SECONDARY}
           value={searchValue}
           onChangeText={setSearchValue}
+          onSubmitEditing={() => { searchValue ? navigation.navigate("SearchScreen", { searchedValue: searchValue }) : false }}
         />
       </View>
 

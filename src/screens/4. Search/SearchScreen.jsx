@@ -1,21 +1,92 @@
-import React, { useState, useCallback } from 'react';
-import { StatusBar, View, Text, Image, StyleSheet, TouchableOpacity, TextInput, FlatList, SafeAreaView } from 'react-native';
+import React from 'react';
+import { FlatList, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
 import { faCamera, faMagnifyingGlass, faBell, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useFocusEffect } from '@react-navigation/native';
+
 import { Colors } from '../../../assets/themes/Theme';
-import recipes from './mockData';
+import recipes from '../3. Home/mockData';
+import Tabs from '../../components/Tab';
 
+const SearchScreen = ({ route, navigation }) => {
+  const { searchedValue } = route.params;
+  const [data, setData] = React.useState(recipes);
+  const [searchValue, setSearchValue] = React.useState('');
+  const [selectedNavItem, setSelectedNavItem] = React.useState('Home');
+  
+  const tabs = [
+    {
+      title: "All",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Food",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Food")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Drink",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Drink")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+    {
+      title: "Dessert",
+      content: () => (
+        <View>
+          <FlatList
+            data={recipes.filter((recipes) => recipes.category == "Dessert")}
+            renderItem={renderRecipeItem}
+            keyExtractor={(item, index) => index.toString()}
+            numColumns={2}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.recipeList}
+          />
+        </View>
+      ),
+    },
+  ];
 
-const HomeScreen = ({ navigation }) => {
-  const [searchValue, setSearchValue] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('All');
-  const [selectedNavItem, setSelectedNavItem] = useState('Home');
-
-  const handleFilterPress = (filter) => {
-    setSelectedFilter(filter);
+  const handleSearch = ({ searchedValue }) => {
+    setData(
+      {...data},
+      data.filter((data) =>
+        data.name.toUpperCase().includes(searchedValue.toUpperCase())
+      )
+    );
   };
 
   const handleNavPress = (navItem) => {
@@ -54,19 +125,21 @@ const HomeScreen = ({ navigation }) => {
         <Image source={item.image} style={styles.recipeImage} />
       </TouchableOpacity>
 
+      <CardFavoriteIcon onPress={() => {}}/>
+
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>
 
       <View style={styles.recipeInfo}>
-        <Text style={styles.categoryInfo}>{item.category}</Text>
+        <Text style={styles.categoryInfo}>{item.category}{item.time}</Text>
       </View>
     </View>
   );
 
   // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
   useFocusEffect(
-    useCallback(() => {
+    React.useCallback(() => {
       setSelectedNavItem('Home'); // Thiết lập trạng thái khi màn hình được tập trung
     }, [])
   );
@@ -92,68 +165,29 @@ const HomeScreen = ({ navigation }) => {
 
       {/* Search */}
       <View style={styles.searchContainer}>
-        <FontAwesomeIcon icon={faMagnifyingGlass} color={Colors.INFO_SECONDARY} />
-        <TextInput
-          style={styles.searchTextInput}
-          placeholder="Search"
-          placeholderTextColor={Colors.INFO_SECONDARY}
-          value={searchValue}
-          onChangeText={setSearchValue}
-        />
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesomeIcon icon={faChevronLeft} style={styles.backIcon} size={18} />
+        </TouchableOpacity>
+
+        <View style={styles.searchInputContainer}>
+          <FontAwesomeIcon icon={faMagnifyingGlass} color={Colors.INFO_SECONDARY} />
+          <TextInput
+            style={styles.searchTextInput}
+            placeholder={searchedValue}
+            placeholderTextColor={Colors.INFO_SECONDARY}
+            value={searchValue}
+            onChangeText={() => {
+              setSearchValue;
+              handleSearch;
+            }}
+            onSubmitEditing={() => { searchValue ? navigation.navigate("SearchScreen", { searchedValue: searchValue }) : false }}
+          />
+        </View>
       </View>
+      
 
-      {/* Filters */}
-      <View style={styles.filterContainer}>
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'All' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('All')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'All' && styles.unselectedFilterText]}>All</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Food' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Food')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Food' && styles.unselectedFilterText]}>Food</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Drinks' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Drinks')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Drinks' && styles.unselectedFilterText]}>Drinks</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[
-            styles.filterItem,
-            selectedFilter === 'Dessert' && styles.selectedFilter,
-          ]}
-          onPress={() => handleFilterPress('Dessert')}
-        >
-          <Text style={[styles.filterText, selectedFilter !== 'Dessert' && styles.unselectedFilterText]}>Dessert</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Recipe Scroll */}
-      <FlatList
-        data={recipes}
-        renderItem={renderRecipeItem}
-        keyExtractor={(item, index) => index.toString()}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.recipeList}
-      />
+      {/* Tabs */}
+      <Tabs items={tabs}/>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNavigation}>
@@ -243,16 +277,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   exploreText: {
-    color: Colors.PRIMARY_MAIN,    
-    marginRight: "3%",
+    fontFamily: "MulishMedium",
+    color: Colors.PRIMARY_MAIN,
+    marginRight: "4%",
   },
   justForYouText: {
+    fontFamily: "MulishMedium",
     color: Colors.INFO_SECONDARY,
   },
   searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: "5%",
+  },
+  backIcon: {
+    marginRight: "4%",
+    color: Colors.INFO_SECONDARY,
+  },
+  searchInputContainer: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: "5%",
     paddingLeft: "5%",
     backgroundColor: '#F1F1F1',
     paddingVertical: "3%",
@@ -264,39 +309,13 @@ const styles = StyleSheet.create({
     color: Colors.INFO_SECONDARY,
     fontFamily: "MulishMedium",
   },
-  filterContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: "5%",
-    alignItems: 'center',
-  },
-  selectedFilter: {
-    backgroundColor: Colors.PRIMARY_MAIN,
-  },
-  unselectedFilterText: {
-    color: Colors.INFO_SECONDARY,
-  },
-  filterItem: {
-    backgroundColor: '#F1F1F1',
-    alignItems: 'center',
-    padding: "3%",
-    borderRadius: 30,
-    width: 72,
-    height: 40,
-  },
-  filterText: {
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: "MulishMedium",
-  },
   recipeList: {
     justifyContent: 'space-between',
-    alignItems: 'center',
   },
   recipeItem: {
     width: 150,
     marginBottom: 16,
-    marginHorizontal: 12
+    marginHorizontal: "2%",
   },
   userContainer: {
     flexDirection: 'row',
@@ -339,6 +358,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     paddingVertical: "3%",
+    backgroundColor: "white",
   },
   navItem: {
     flex: 1,
@@ -362,4 +382,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default SearchScreen;

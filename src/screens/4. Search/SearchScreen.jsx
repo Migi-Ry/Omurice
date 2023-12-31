@@ -115,8 +115,6 @@ const SearchScreen = ({ route, navigation }) => {
         <Image source={item.image} style={styles.recipeImage} />
       </TouchableOpacity>
 
-      <CardFavoriteIcon onPress={() => {}}/>
-
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>

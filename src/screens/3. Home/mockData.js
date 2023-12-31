@@ -103,15 +103,3 @@ export const SEARCH_FOOD = ({ value }) => [recipes.map(item => ({
   ...item,
   id: Math.random().toString(),
 }))];
-
-export const SEARCH_DRINK = ({ value }) => [recipes.map(item => ({
-  ...item,
-  id: Math.random().toString(),
-}))];
-
-export const SEARCH_DESSERT = ({ value }) => [recipes.map(item => ({
-  ...item,
-  id: Math.random().toString(),
-}))];
-
-export const SEARCH_ALL = [...SEARCH_FOOD, ...SEARCH_DRINK, ...SEARCH_DESSERT];

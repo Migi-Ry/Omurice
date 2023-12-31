@@ -98,8 +98,3 @@ const recipes = [
 ];
 
 export default recipes;
-
-export const SEARCH_FOOD = ({ value }) => [recipes.map(item => ({
-  ...item,
-  id: Math.random().toString(),
-}))];

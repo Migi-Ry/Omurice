@@ -36,8 +36,8 @@ const ProfileScreen = ({ navigation }) => {
     }
   };
 
-  const renderRecipeItem = ({ item }) => (
-    <View style={styles.recipeItem}>
+  const renderRecipeItem = ({ item, index }) => (
+    <View style={[styles.recipeItem, index % 2 !== 0 && { marginLeft: "5%" }]}>
       <Image source={item.image} style={styles.recipeImage} />
       <Text style={styles.recipeName}>{item.name}</Text>
       <View style={styles.recipeInfo}>
@@ -346,8 +346,8 @@ const styles = StyleSheet.create({
   },
   recipeList: {
     paddingHorizontal: "5%",
-    justifyContent: 'space-between',
-    gap: 4,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   recipeItem: {
     width: 150,

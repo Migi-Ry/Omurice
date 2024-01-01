@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   foodNameTxt: {
+    color: Colors.PRIMARY_MAIN,
     fontFamily: "MulishBold",
     fontSize: 20,
   },

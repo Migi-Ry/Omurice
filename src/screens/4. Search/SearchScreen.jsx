@@ -13,7 +13,6 @@ import Tabs from '../../components/Tab';
 
 const SearchScreen = ({ route, navigation }) => {
   const { searchedValue } = route.params;
-  const [data, setData] = React.useState(recipes);
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedNavItem, setSelectedNavItem] = React.useState('Home');
   
@@ -80,15 +79,6 @@ const SearchScreen = ({ route, navigation }) => {
     },
   ];
 
-  const handleSearch = ({ searchedValue }) => {
-    setData(
-      {...data},
-      data.filter((data) =>
-        data.name.toUpperCase().includes(searchedValue.toUpperCase())
-      )
-    );
-  };
-
   const handleNavPress = (navItem) => {
     setSelectedNavItem(navItem);
 
@@ -124,8 +114,6 @@ const SearchScreen = ({ route, navigation }) => {
       <TouchableOpacity onPress={() => {}}>
         <Image source={item.image} style={styles.recipeImage} />
       </TouchableOpacity>
-
-      <CardFavoriteIcon onPress={() => {}}/>
 
       <TouchableOpacity onPress={() => {}}>
         <Text style={styles.recipeName}>{item.name}</Text>
@@ -176,10 +164,7 @@ const SearchScreen = ({ route, navigation }) => {
             placeholder={searchedValue}
             placeholderTextColor={Colors.INFO_SECONDARY}
             value={searchValue}
-            onChangeText={() => {
-              setSearchValue;
-              handleSearch;
-            }}
+            onChangeText={setSearchValue}
             onSubmitEditing={() => { searchValue ? navigation.navigate("SearchScreen", { searchedValue: searchValue }) : false }}
           />
         </View>

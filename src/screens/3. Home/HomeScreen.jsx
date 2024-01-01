@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View, } from 'react-native';
+import { FlatList, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons/faHouse';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons/faPenToSquare';
@@ -13,14 +13,16 @@ import Tabs from '../../components/Tab';
 const HomeScreen = ({ navigation }) => {
   const [searchValue, setSearchValue] = React.useState('');
   const [selectedNavItem, setSelectedNavItem] = React.useState('Home');
-  
+  const [selectedTab, setSelectedTab] = React.useState('EXPLORE');
+  const [currentTabContent, setCurrentTabContent] = React.useState([]);
+
   const tabs = [
-      {
+    {
       title: "All",
       content: () => (
         <View>
           <FlatList
-            data={recipes}
+            data={currentTabContent.length > 0 ? currentTabContent : recipes}
             renderItem={renderRecipeItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
@@ -35,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
       content: () => (
         <View>
           <FlatList
-            data={recipes.filter((recipes) => recipes.category == "Food")}
+            data={recipes.filter((recipe) => recipe.category == "Food")}
             renderItem={renderRecipeItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
@@ -50,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
       content: () => (
         <View>
           <FlatList
-            data={recipes.filter((recipes) => recipes.category == "Drink")}
+            data={recipes.filter((recipe) => recipe.category == "Drink")}
             renderItem={renderRecipeItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
@@ -65,7 +67,7 @@ const HomeScreen = ({ navigation }) => {
       content: () => (
         <View>
           <FlatList
-            data={recipes.filter((recipes) => recipes.category == "Dessert")}
+            data={recipes.filter((recipe) => recipe.category == "Dessert")}
             renderItem={renderRecipeItem}
             keyExtractor={(item, index) => index.toString()}
             numColumns={2}
@@ -91,8 +93,7 @@ const HomeScreen = ({ navigation }) => {
     // Chuyển hướng đến trang Camera khi nhấn vào item nav Camera
     if (navItem === 'Camera') {
       navigation.navigate('CameraScreen');
-    } 
-    else if (navItem === 'Profile') {
+    } else if (navItem === 'Profile') {
       navigation.navigate('ProfileScreen');
     } else if (navItem === 'Notification') {
       navigation.navigate('NotiScreen');
@@ -123,6 +124,28 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  const shuffleRecipes = (list) => {
+    const shuffledList = [...list];
+    for (let i = shuffledList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledList[i], shuffledList[j]] = [shuffledList[j], shuffledList[i]];
+    }
+    return shuffledList;
+  };
+
+  const handleTabPress = (tab) => {
+    setSelectedTab(tab);
+
+    if (tab === 'JUST FOR YOU') {
+      // Trộn lại danh sách công thức của "JUST FOR YOU" khi chọn lại tab
+      const randomRecipes = shuffleRecipes(recipes.filter((recipe) => recipe.category !== 'JUST FOR YOU')).slice(0, 6);
+      setCurrentTabContent([...randomRecipes]);
+    } else {
+      // Nếu chọn một tab khác, đặt lại danh sách công thức của "JUST FOR YOU" để trộn lại khi chọn lại tab
+      setCurrentTabContent([]);
+    }
+  };
+
   // Sử dụng useFocusEffect để cập nhật trạng thái khi màn hình được tập trung
   useFocusEffect(
     React.useCallback(() => {
@@ -139,12 +162,12 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.appName}>Omurice</Text>
 
         <View style={styles.headerRight}>
-          <TouchableOpacity>
-            <Text style={styles.exploreText}>EXPLORE</Text>
+          <TouchableOpacity onPress={() => handleTabPress('EXPLORE')}>
+            <Text style={[styles.exploreText, { color: selectedTab === 'EXPLORE' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}>EXPLORE</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Text style={styles.justForYouText}>JUST FOR YOU</Text>
+          <TouchableOpacity onPress={() => handleTabPress('JUST FOR YOU')}>
+            <Text style={[styles.justForYouText, { color: selectedTab === 'JUST FOR YOU' ? Colors.PRIMARY_MAIN : Colors.INFO_SECONDARY }]}>JUST FOR YOU</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -163,7 +186,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       {/* Tabs */}
-      <Tabs items={tabs}/>
+      <Tabs items={tabs} />
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNavigation}>
@@ -277,7 +300,8 @@ const styles = StyleSheet.create({
     fontFamily: "MulishMedium",
   },
   recipeList: {
-    justifyContent: 'space-between',
+    flexGrow: 1,
+    alignItems: 'center',
   },
   recipeItem: {
     width: 150,

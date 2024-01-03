@@ -110,11 +110,11 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.userName} numberOfLines={1}>{item.userName}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => { }}>
+      <TouchableOpacity onPress={() => navigation.navigate("DetailScreen", { foodId: item.id, foodName: item.name, foodDescription: item.description, foodImg: item.image, foodCategory: item.category, foodTime: item.time, userAvatar: item.avatar , userName: item.userName })}>
         <Image source={item.image} style={styles.recipeImage} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => { }}>
+      <TouchableOpacity onPress={() => navigation.navigate("DetailScreen", { foodId: item.id, foodName: item.name, foodDescription: item.description, foodImg: item.image, foodCategory: item.category, foodTime: item.time, userAvatar: item.avatar , userName: item.userName })}>
         <Text style={styles.recipeName}>{item.name}</Text>
       </TouchableOpacity>
 

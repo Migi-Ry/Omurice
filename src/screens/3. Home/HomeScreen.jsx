@@ -137,11 +137,9 @@ const HomeScreen = ({ navigation }) => {
     setSelectedTab(tab);
 
     if (tab === 'JUST FOR YOU') {
-      // Trộn lại danh sách công thức của "JUST FOR YOU" khi chọn lại tab
       const randomRecipes = shuffleRecipes(recipes.filter((recipe) => recipe.category !== 'JUST FOR YOU')).slice(0, 6);
       setCurrentTabContent([...randomRecipes]);
     } else {
-      // Nếu chọn một tab khác, đặt lại danh sách công thức của "JUST FOR YOU" để trộn lại khi chọn lại tab
       setCurrentTabContent([]);
     }
   };
